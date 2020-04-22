@@ -1,0 +1,90 @@
+<div class="container-fluid">
+  
+  <table class="">
+    <thead>
+      <tr>
+          <th>Name</th>
+          <th>Designation</th>
+          <th>Location</th>
+          <th>Salary</th>
+          <th></th>
+      </tr>
+    </thead>
+    
+    <tr *ngFor="let emp of employeeList">
+      <td>{{emp.name}}</td>
+      <td>{{emp.position}}</td>
+      <td>{{emp.location}}</td>
+      <td>{{emp.salary}}</td>
+      <td>
+        <a class="action-btn" (click)="onEdit(emp)">
+          <i class="material-icons">edit</i>
+        </a>
+        <a class="action-btn" (click)="deleteEmployee(emp._id)">
+           <i class="material-icons">delete</i>
+         </a>
+      </td>
+    </tr>
+
+  </table>
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    <br>
+    <h4>Fill the Details:</h4>
+    <br><br>
+    <div class="form-group">
+      <input hidden="true" formControlName="_id">
+    </div>
+      <div class="form-group">
+          <label>Name</label>
+          <input [class.is-invalid]="employeeForm.get('name').invalid && employeeForm.get('name').touched" 
+            type="text" required class="form-control" formControlName="name">
+          <div *ngIf="employeeForm.get('name').invalid && employeeForm.get('name').touched">
+            <small *ngIf="employeeForm.get('name').errors?.required"
+                class="text-danger"> Name is Required</small>
+            <small *ngIf="employeeForm.get('name').errors?.minlength"
+              class="text-danger">Min Length is 5</small>
+            <small *ngIf="employeeForm.get('name').errors?.forbiddenName"
+              class="text-danger">Forbidden Name</small>
+          </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Position</label>
+        <input [class.is-invalid]="getPosition.invalid && getPosition.touched"
+          type="text" required class="form-control" formControlName="position">
+          <div *ngIf="getPosition.invalid && getPosition.touched">
+            <small *ngIf="getPosition.errors?.required"
+                class="text-danger"> Position is Required</small>
+          </div>
+        
+       </div>
+      
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" class="form-control" formControlName="location">
+        </div>
+      
+        <div class="form-group">
+          <label>Salary</label>
+          <input type="text" formControlName="salary" class="form-control">
+        </div>
+
+        <div formGroupName="address">
+          <div class="form-group">
+            <label>City</label>
+            <input type="text" formControlName="city" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" formControlName="state" class="form-control">
+          </div>
+          <div class="form-group">
+            <label>Postal Code</label>
+            <input type="text" formControlName="postalcode" class="form-control">
+          </div>
+        </div>
+      
+        <button class="btn-primary" type="submit">Submit</button>
+        <button  (click)="loadData()" class="btn-secondary" type="button">Get data</button>
+  </form>
+</div>
